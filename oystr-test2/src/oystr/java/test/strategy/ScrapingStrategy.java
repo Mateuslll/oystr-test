@@ -14,7 +14,7 @@ public class ScrapingStrategy {
 
     public ScrapingStrategy() {
         strategyMap.put("agrofy.com.br", new AgrofyBot());
-//        strategyMap.put("tratoresecolheitadeiras.com.br", new TratoresBot());
+        strategyMap.put("tratoresecolheitadeiras.com.br", new TratoresBot());
 //        strategyMap.put("mercadomaquinas.com.br", new MercadoMaquinasBot());
     }
 
