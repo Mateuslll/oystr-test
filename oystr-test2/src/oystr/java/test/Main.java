@@ -24,9 +24,8 @@ public class Main {
 			"https://www.agrofy.com.br/trator-case-puma-215-193793.html",
 			"https://www.tratoresecolheitadeiras.com.br/veiculo/uberlandia/mg/plataforma-colheitadeira/gts/flexer-xs-45/2023/45-pes/draper/triamaq-tratores/1028839",
 			"https://www.tratoresecolheitadeiras.com.br/veiculo/uberlandia/mg/plataforma-colheitadeira/gts/produttiva-1250/2022/caracol/12-linhas/triamaq-tratores/994257",
-			"https://www.tratoresecolheitadeiras.com.br/veiculo/sao-jose-do-rio-claro/mt/colheitadeira/john-deere/john-deere-9750-sts/2005/-rotor-axial/hydro/cabine-cabinado/rio-claro-agropecas/1222257",
-//			"https://www.mercadomaquinas.com.br/anuncio/236624-retro-escavadeira-caterpillar-416e-2015-carlopolis-pr",
-//			"https://www.mercadomaquinas.com.br/anuncio/236623-mini-escavadeira-bobcat-e27z-2019-sete-lagoas-mg"
+			"https://www.mercadomaquinas.com.br/anuncio/236624-retro-escavadeira-caterpillar-416e-2015-carlopolis-pr",
+			"https://www.mercadomaquinas.com.br/anuncio/236623-mini-escavadeira-bobcat-e27z-2019-sete-lagoas-mg"
 		};
 
 		for(String url : urls) {

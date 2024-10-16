@@ -8,11 +8,8 @@ import oystr.java.test.models.Machine;
 import oystr.java.test.models.impl.MachineImpl;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class AgrofyBot implements Bot {
 
@@ -21,14 +18,8 @@ public class AgrofyBot implements Bot {
         Machine machine = new MachineImpl();
         try {
             Document doc = Jsoup.connect(url).get();
-
-            // Set model and price
             setModelAndPrice(doc, machine);
-
-            // Set technical details like contract type, city, make, year, and worked hours
             setTechnicalDetails(doc, machine);
-
-            // Set photo URLs
             setPhotoUrls(doc, machine);
 
         } catch (IOException e) {
@@ -40,12 +31,14 @@ public class AgrofyBot implements Bot {
 
     private void setModelAndPrice(Document doc, Machine machine) {
         String model = doc.select("h1[data-test=prices-prodName]").text();
-        machine.setModel(model);
+        if (!model.isEmpty()) {
+            machine.setModel(model);
+        }
 
         String priceString = doc.select("span[data-test=prices-totalPrice]").text();
         if (!priceString.isEmpty()) {
             try {
-                double priceValue = Double.parseDouble(priceString.replace("R$", "").replace(".", "").replace(",", "."));
+                double priceValue = parsePrice(priceString);
                 machine.setPrice(priceValue);
             } catch (NumberFormatException e) {
                 System.err.println("Error parsing price: " + priceString);
@@ -73,14 +66,17 @@ public class AgrofyBot implements Bot {
                     machine.setModel(value);
                 } else if (li.text().contains("Ano de fabricação")) {
                     try {
-                        machine.setYear(Integer.parseInt(value));
+                        int year = Integer.parseInt(value);
+                        machine.setYear(year);
                     } catch (NumberFormatException e) {
                         System.err.println("Error parsing year: " + value);
                     }
                 } else if (li.text().contains("Horas de Uso")) {
                     try {
-                        machine.setWorkedHours(Integer.parseInt(value.replaceAll("[^0-9]", "")));
+                        int hours = Integer.parseInt(value.replaceAll("[^0-9]", ""));
+                        machine.setWorkedHours(hours);
                     } catch (NumberFormatException e) {
+                        machine.setWorkedHours(0);
                         System.err.println("Error parsing worked hours: " + value);
                     }
                 }
@@ -98,7 +94,16 @@ public class AgrofyBot implements Bot {
         }
 
         if (!photoUrls.isEmpty()) {
-            machine.setPhotoUrl(photoUrls.get(0));  // Set the first photo URL
+            machine.setPhotoUrl(photoUrls.get(0));
+        }
+    }
+
+    private double parsePrice(String priceText) {
+        try {
+            return Double.parseDouble(priceText.replace("R$", "").replace(".", "").replace(",", ".").trim());
+        } catch (NumberFormatException e) {
+            System.err.println("Error parsing price: " + priceText);
+            return 0.0;
         }
     }
 }
